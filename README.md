@@ -1,2 +1,7 @@
-# my-prompt-collection
-存储我的 prompt 
+# My Prompts
+
+This repository is used to store various prompts I use.
+
+## Directory Structure
+
+Prompts are organized into different folders by category.
