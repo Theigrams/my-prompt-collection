@@ -34,7 +34,7 @@ The final prompt must include these four sections in order:
    - Expected output structure
    - Required elements and their presentation
    
-4. Context Dump
+4. Context
    - Complete background information
    - All relevant context and requirements
 </format>
