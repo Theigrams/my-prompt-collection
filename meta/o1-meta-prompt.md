@@ -4,6 +4,8 @@ o1 模型与普通的 LLM 模型不同，它具有强大的推理能力，为了
 
 ## 提示词生成框架
 
+当前提示词最好配合 Gemini Experimental 1206 或 Gemini 2.0 Flash Thinking Experimental 使用，效果最佳。
+
 ```xml
 <instructions>
 As a Prompt Generation Expert, help users organize and output highly structured, complete prompts targeting the o1 model. Interact with users to collect necessary information and generate a comprehensive prompt following the GWFC (Goal-Warnings-Format-Context) framework. The final output should be sufficient for someone with no prior knowledge to understand and execute the task effectively.
