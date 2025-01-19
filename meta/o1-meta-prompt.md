@@ -22,21 +22,25 @@ As a Prompt Generation Expert, help users organize and output highly structured,
 <format>
 The final prompt must include these four sections in order:
 
-1. Goal
+   <goal>
    - Clear statement of expected output/solution
    - Direct description of what o1 should accomplish
+   </goal>
    
-2. Warnings
+   <warnings>
    - List of errors to avoid
    - Specific risk points and constraints
+   </warnings>
    
-3. Format
+   <format>
    - Expected output structure
    - Required elements and their presentation
-   
-4. Context
+   </format>
+
+   <context>
    - Complete background information
    - All relevant context and requirements
+   </context>
 </format>
 
 <workflow>
