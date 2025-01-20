@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Equation Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'gradient': 'gradient 8s linear infinite',
+                    },
+                    keyframes: {
+                        gradient: {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full transition-colors duration-200 bg-gray-50 dark:bg-gray-900">
+    <div class="min-h-full">
+        <!-- Header with gradient background -->
+        <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 animate-gradient">
+            <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-3xl font-bold tracking-tight text-white">Markdown Equation Converter</h1>
+                    <!-- Dark mode toggle -->
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-white/10 transition-colors duration-200">
+                        <svg class="w-6 h-6 text-white dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                        <svg class="w-6 h-6 text-white hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <main class="py-10">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 space-y-8 transition-colors duration-200">
+                    <!-- Input Area -->
+                    <div class="space-y-2">
+                        <label for="input" class="block text-sm font-medium text-gray-900 dark:text-gray-100">Input Markdown</label>
+                        <div class="relative group">
+                            <textarea 
+                                id="input" 
+                                rows="8" 
+                                class="block w-full rounded-lg border-0 py-3 px-4 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-500 dark:bg-gray-700 sm:text-sm sm:leading-6 font-mono transition-all duration-200" 
+                                placeholder="Paste your markdown text here..."
+                            ></textarea>
+                            <div class="absolute inset-0 rounded-lg ring-1 ring-inset ring-gray-300 dark:ring-gray-700 group-hover:ring-gray-400 dark:group-hover:ring-gray-600 pointer-events-none transition-colors duration-200"></div>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="flex items-center gap-x-4">
+                        <label class="relative inline-flex items-center cursor-pointer group">
+                            <input type="checkbox" id="convertDisplayed" class="sr-only peer" checked>
+                            <div class="w-14 h-7 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-indigo-600 group-hover:bg-gray-300 dark:group-hover:bg-gray-600 transition-colors duration-200"></div>
+                            <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-100">Convert displayed equations (\[ \] to $$ $$)</span>
+                        </label>
+                        <!-- Add new checkbox for \bm to \mathbf conversion -->
+                        <label class="relative inline-flex items-center cursor-pointer group">
+                            <input type="checkbox" id="convertBoldMath" class="sr-only peer" checked>
+                            <div class="w-14 h-7 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-indigo-600 group-hover:bg-gray-300 dark:group-hover:bg-gray-600 transition-colors duration-200"></div>
+                            <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-100">Convert \bm to \mathbf</span>
+                        </label>
+                    </div>
+
+                    <!-- Convert Button -->
+                    <div>
+                        <button 
+                            onclick="convertEquations()" 
+                            class="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200"
+                        >
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                            Convert Equations
+                        </button>
+                    </div>
+
+                    <!-- Output Area -->
+                    <div class="space-y-2">
+                        <label for="output" class="block text-sm font-medium text-gray-900 dark:text-gray-100">Output</label>
+                        <div class="relative group">
+                            <pre id="output" class="block w-full whitespace-pre-wrap rounded-lg border-0 bg-gray-50 dark:bg-gray-700 py-4 px-4 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-500 sm:text-sm sm:leading-6 font-mono min-h-[100px] transition-colors duration-200"></pre>
+                            <button 
+                                onclick="copyOutput()" 
+                                class="absolute top-3 right-3 inline-flex items-center rounded-md bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200"
+                            >
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+        }
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true' || 
+            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        function convertEquations() {
+            const input = document.getElementById('input').value;
+            const shouldConvertDisplayed = document.getElementById('convertDisplayed').checked;
+            const shouldConvertBoldMath = document.getElementById('convertBoldMath').checked;
+            
+            // Convert inline equations from \( \) to $ $
+            let converted = input.replace(/\\\((.*?)\\\)/g, '$$$1$$');
+            
+            // Convert displayed equations from \[ \] to $$ $$ only if checkbox is checked
+            if (shouldConvertDisplayed) {
+                converted = converted.replace(/\\\[([\s\S]*?)\\\]/g, '$$$$$1$$$');
+            }
+            
+            // Convert \bm to \mathbf if checkbox is checked
+            if (shouldConvertBoldMath) {
+                converted = converted.replace(/\\bm\{([^}]*)\}/g, '\\mathbf{$1}');
+            }
+            
+            document.getElementById('output').textContent = converted;
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(output)
+                .then(() => {
+                    const copyBtn = document.querySelector('button[onclick="copyOutput()"]');
+                    const originalHTML = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Copied!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalHTML;
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+        }
+
+        // Load test.md content if available
+        fetch('test.md')
+            .then(response => response.text())
+            .then(text => {
+                document.getElementById('input').value = text;
+            })
+            .catch(err => {
+                console.error('Error loading test.md:', err);
+            });
+    </script>
+</body>
+</html> 
