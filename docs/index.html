@@ -68,60 +68,75 @@
 
                 <!-- Prompts Section -->
                 <div class="space-y-16">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8 pb-2 border-b border-gray-200 dark:border-gray-700">提示词集合</h2>
+                    
+                    <!-- Tips Section -->
+                    <div class="mb-12">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                            <span class="inline-block w-1 h-6 bg-green-500 rounded mr-3"></span>
+                            小技巧
+                        </h3>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/tips/latex_math_formulas.md" class="block">
+                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-green-500 dark:hover:border-green-500 transition-all duration-200">
+                                    <h4 class="font-medium text-gray-900 dark:text-white">LaTeX 数学公式指南</h4>
+                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">针对不同模型的 LaTeX 数学公式生成指南</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- Academic Section -->
+                    <div class="mb-12">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                            <span class="inline-block w-1 h-6 bg-indigo-500 rounded mr-3"></span>
+                            学术类
+                        </h3>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/academic/paper_analyzer.md" class="block">
+                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
+                                    <h4 class="font-medium text-gray-900 dark:text-white">论文分析器</h4>
+                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">提供全面的学术论文分析框架</p>
+                                </div>
+                            </a>
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/academic/paper_o1.md" class="block">
+                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
+                                    <h4 class="font-medium text-gray-900 dark:text-white">论文解释（o1版）</h4>
+                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">按章节详细解释论文内容</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Meta Section -->
+                    <div class="mb-12">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                            <span class="inline-block w-1 h-6 bg-purple-500 rounded mr-3"></span>
+                            元提示词
+                        </h3>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/meta/o1-meta-prompt.md" class="block">
+                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-purple-500 dark:hover:border-purple-500 transition-all duration-200">
+                                    <h4 class="font-medium text-gray-900 dark:text-white">o1 提示词生成指南</h4>
+                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">使用 GWFC 框架生成提示词</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Programming Section -->
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8 pb-2 border-b border-gray-200 dark:border-gray-700">提示词集合</h2>
-                        <div class="mb-12">
-                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-                                <span class="inline-block w-1 h-6 bg-indigo-500 rounded mr-3"></span>
-                                学术类
-                            </h3>
-                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                <a href="https://github.com/theigrams/my-prompt-collection/blob/main/academic/paper_analyzer.md" class="block">
-                                    <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
-                                        <h4 class="font-medium text-gray-900 dark:text-white">论文分析器</h4>
-                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">提供全面的学术论文分析框架</p>
-                                    </div>
-                                </a>
-                                <a href="https://github.com/theigrams/my-prompt-collection/blob/main/academic/paper_o1.md" class="block">
-                                    <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
-                                        <h4 class="font-medium text-gray-900 dark:text-white">论文解释（o1版）</h4>
-                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">按章节详细解释论文内容</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Meta Section -->
-                        <div class="mb-12">
-                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-                                <span class="inline-block w-1 h-6 bg-purple-500 rounded mr-3"></span>
-                                元提示词
-                            </h3>
-                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                <a href="https://github.com/theigrams/my-prompt-collection/blob/main/meta/o1-meta-prompt.md" class="block">
-                                    <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-purple-500 dark:hover:border-purple-500 transition-all duration-200">
-                                        <h4 class="font-medium text-gray-900 dark:text-white">o1 提示词生成指南</h4>
-                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">使用 GWFC 框架生成提示词</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Programming Section -->
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-                                <span class="inline-block w-1 h-6 bg-pink-500 rounded mr-3"></span>
-                                编程开发
-                            </h3>
-                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                <a href="https://github.com/theigrams/my-prompt-collection/blob/main/programming/github_explanation.md" class="block">
-                                    <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-pink-500 dark:hover:border-pink-500 transition-all duration-200">
-                                        <h4 class="font-medium text-gray-900 dark:text-white">GitHub 仓库分析工具</h4>
-                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">提供项目用途和功能概述</p>
-                                    </div>
-                                </a>
-                            </div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
+                            <span class="inline-block w-1 h-6 bg-pink-500 rounded mr-3"></span>
+                            编程开发
+                        </h3>
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/programming/github_explanation.md" class="block">
+                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-pink-500 dark:hover:border-pink-500 transition-all duration-200">
+                                    <h4 class="font-medium text-gray-900 dark:text-white">GitHub 仓库分析工具</h4>
+                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">提供项目用途和功能概述</p>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
