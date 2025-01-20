@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +31,7 @@
         }
     </script>
 </head>
+
 <body class="h-full transition-colors duration-200 bg-gray-50 dark:bg-gray-900">
     <div class="min-h-full">
         <!-- Header with gradient background -->
@@ -39,18 +41,24 @@
                     <div class="flex items-center space-x-4">
                         <a href="../index.html" class="text-white hover:text-white/80 transition-colors">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                             </svg>
                         </a>
                         <h1 class="text-3xl font-bold tracking-tight text-white">Markdown Equation Converter</h1>
                     </div>
                     <!-- Dark mode toggle -->
-                    <button onclick="toggleDarkMode()" class="p-2.5 rounded-full hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50">
-                        <svg class="w-5 h-5 text-white dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    <button onclick="toggleDarkMode()"
+                        class="p-2.5 rounded-full hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50">
+                        <svg class="w-5 h-5 text-white dark:hidden" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                         </svg>
-                        <svg class="w-5 h-5 text-white hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        <svg class="w-5 h-5 text-white hidden dark:block" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                     </button>
                 </div>
@@ -59,16 +67,15 @@
 
         <main class="py-8 sm:py-12">
             <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 space-y-8 transition-colors duration-200 border border-gray-200 dark:border-gray-700">
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 space-y-8 transition-colors duration-200 border border-gray-200 dark:border-gray-700">
                     <!-- Input Area -->
                     <div class="space-y-2">
-                        <label for="input" class="block text-sm font-medium text-gray-900 dark:text-gray-100">Input Markdown</label>
+                        <label for="input" class="block text-sm font-medium text-gray-900 dark:text-gray-100">Input
+                            Markdown</label>
                         <div class="relative group">
-                            <textarea 
-                                id="input" 
-                                rows="8" 
-                                class="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-200 dark:ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:focus:ring-indigo-500 dark:bg-gray-700/50 sm:text-sm sm:leading-6 font-mono transition-all duration-200"
-                            >Consider the equation \[\mathbf{F} = m\mathbf{a}\]
+                            <textarea id="input" rows="8"
+                                class="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-200 dark:ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:focus:ring-indigo-500 dark:bg-gray-700/50 sm:text-sm sm:leading-6 font-mono transition-all duration-200">Consider the equation \[\mathbf{F} = m\mathbf{a}\]
 
 For a particle with mass \(m\) moving with velocity \(\bm{v}\), its momentum is given by \[\bm{p} = m\bm{v}\]</textarea>
                         </div>
@@ -78,24 +85,29 @@ For a particle with mass \(m\) moving with velocity \(\bm{v}\), its momentum is 
                     <div class="flex flex-wrap items-center gap-6">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="convertDisplayed" class="sr-only peer" checked>
-                            <div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-                            <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-100">Convert displayed equations (\[ \] to $$ $$)</span>
+                            <div
+                                class="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600">
+                            </div>
+                            <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-100">Convert displayed
+                                equations (\[ \] to $$ $$)</span>
                         </label>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="convertBoldMath" class="sr-only peer" checked>
-                            <div class="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-                            <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-100">Convert \bm to \mathbf</span>
+                            <div
+                                class="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600">
+                            </div>
+                            <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-100">Convert \bm to
+                                \mathbf</span>
                         </label>
                     </div>
 
                     <!-- Convert Button -->
                     <div>
-                        <button 
-                            onclick="convertEquations()" 
-                            class="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200"
-                        >
+                        <button onclick="convertEquations()"
+                            class="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-200">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
                             </svg>
                             Convert Equations
                         </button>
@@ -103,15 +115,16 @@ For a particle with mass \(m\) moving with velocity \(\bm{v}\), its momentum is 
 
                     <!-- Output Area -->
                     <div class="space-y-2">
-                        <label for="output" class="block text-sm font-medium text-gray-900 dark:text-gray-100">Output</label>
+                        <label for="output"
+                            class="block text-sm font-medium text-gray-900 dark:text-gray-100">Output</label>
                         <div class="relative">
-                            <pre id="output" class="block w-full whitespace-pre-wrap rounded-xl border-0 bg-gray-50 dark:bg-gray-700/50 py-4 px-4 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:focus:ring-indigo-500 sm:text-sm sm:leading-6 font-mono min-h-[100px] transition-colors duration-200"></pre>
-                            <button 
-                                onclick="copyOutput()" 
-                                class="absolute top-3 right-3 inline-flex items-center rounded-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-white dark:hover:bg-gray-800 transition-all duration-200"
-                            >
+                            <pre id="output"
+                                class="block w-full whitespace-pre-wrap rounded-xl border-0 bg-gray-50 dark:bg-gray-700/50 py-4 px-4 text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-200 dark:ring-gray-700 focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:focus:ring-indigo-500 sm:text-sm sm:leading-6 font-mono min-h-[100px] transition-colors duration-200"></pre>
+                            <button onclick="copyOutput()"
+                                class="absolute top-3 right-3 inline-flex items-center rounded-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-white dark:hover:bg-gray-800 transition-all duration-200">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                                 </svg>
                                 Copy
                             </button>
@@ -130,7 +143,7 @@ For a particle with mass \(m\) moving with velocity \(\bm{v}\), its momentum is 
         }
 
         // Check for saved dark mode preference
-        if (localStorage.getItem('darkMode') === 'true' || 
+        if (localStorage.getItem('darkMode') === 'true' ||
             (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         }
@@ -139,20 +152,20 @@ For a particle with mass \(m\) moving with velocity \(\bm{v}\), its momentum is 
             const input = document.getElementById('input').value;
             const shouldConvertDisplayed = document.getElementById('convertDisplayed').checked;
             const shouldConvertBoldMath = document.getElementById('convertBoldMath').checked;
-            
+
             // Convert inline equations from \( \) to $ $
             let converted = input.replace(/\\\((.*?)\\\)/g, '$$$1$$');
-            
+
             // Convert displayed equations from \[ \] to $$ $$ only if checkbox is checked
             if (shouldConvertDisplayed) {
                 converted = converted.replace(/\\\[([\s\S]*?)\\\]/g, '$$$$$1$$$');
             }
-            
+
             // Convert \bm to \mathbf if checkbox is checked
             if (shouldConvertBoldMath) {
                 converted = converted.replace(/\\bm\{([^}]*)\}/g, '\\mathbf{$1}');
             }
-            
+
             document.getElementById('output').textContent = converted;
         }
 
@@ -162,7 +175,8 @@ For a particle with mass \(m\) moving with velocity \(\bm{v}\), its momentum is 
                 .then(() => {
                     const copyBtn = document.querySelector('button[onclick="copyOutput()"]');
                     const originalHTML = copyBtn.innerHTML;
-                    copyBtn.innerHTML = '<svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Copied!';
+                    copyBtn.innerHTML =
+                        '<svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Copied!';
                     setTimeout(() => {
                         copyBtn.innerHTML = originalHTML;
                     }, 2000);
@@ -171,16 +185,7 @@ For a particle with mass \(m\) moving with velocity \(\bm{v}\), its momentum is 
                     console.error('Failed to copy text: ', err);
                 });
         }
-
-        // Load test.md content if available
-        fetch('test.md')
-            .then(response => response.text())
-            .then(text => {
-                document.getElementById('input').value = text;
-            })
-            .catch(err => {
-                console.error('Error loading test.md:', err);
-            });
     </script>
 </body>
-</html> 
+
+</html>
