@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN" class="h-full">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +31,7 @@
         }
     </script>
 </head>
+
 <body class="h-full bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
     <div class="min-h-full">
         <!-- Header -->
@@ -38,12 +40,17 @@
                 <div class="flex justify-between items-center">
                     <h1 class="text-3xl font-bold tracking-tight text-white">Prompt Collection</h1>
                     <!-- Dark mode toggle -->
-                    <button onclick="toggleDarkMode()" class="p-2.5 rounded-full hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50">
-                        <svg class="w-5 h-5 text-white dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    <button onclick="toggleDarkMode()"
+                        class="p-2.5 rounded-full hover:bg-white/20 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50">
+                        <svg class="w-5 h-5 text-white dark:hidden" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                         </svg>
-                        <svg class="w-5 h-5 text-white hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        <svg class="w-5 h-5 text-white hidden dark:block" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
                     </button>
                 </div>
@@ -54,11 +61,16 @@
             <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                 <!-- Tools Section -->
                 <div class="mb-16">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8 pb-2 border-b border-gray-200 dark:border-gray-700">工具集</h2>
+                    <h2
+                        class="text-2xl font-bold text-gray-900 dark:text-white mb-8 pb-2 border-b border-gray-200 dark:border-gray-700">
+                        工具集</h2>
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         <a href="tools/md-equation-tool.html" class="group">
-                            <div class="h-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Markdown 公式转换器</h3>
+                            <div
+                                class="h-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
+                                <h3
+                                    class="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                    Markdown 公式转换器</h3>
                                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">将 LaTeX 公式转换为 Markdown 兼容格式</p>
                             </div>
                         </a>
@@ -68,8 +80,10 @@
 
                 <!-- Prompts Section -->
                 <div class="space-y-16">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8 pb-2 border-b border-gray-200 dark:border-gray-700">提示词集合</h2>
-                    
+                    <h2
+                        class="text-2xl font-bold text-gray-900 dark:text-white mb-8 pb-2 border-b border-gray-200 dark:border-gray-700">
+                        提示词集合</h2>
+
                     <!-- Tips Section -->
                     <div class="mb-12">
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
@@ -77,8 +91,10 @@
                             小技巧
                         </h3>
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/01-tips/latex_math_formulas.md" class="block">
-                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-green-500 dark:hover:border-green-500 transition-all duration-200">
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/01-tips/latex_math_formulas.md"
+                                class="block">
+                                <div
+                                    class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-green-500 dark:hover:border-green-500 transition-all duration-200">
                                     <h4 class="font-medium text-gray-900 dark:text-white">LaTeX 数学公式指南</h4>
                                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">针对不同模型的 LaTeX 数学公式生成指南</p>
                                 </div>
@@ -93,14 +109,18 @@
                             学术类
                         </h3>
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/02-academic/paper_analyzer.md" class="block">
-                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/02-academic/paper_analyzer.md"
+                                class="block">
+                                <div
+                                    class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
                                     <h4 class="font-medium text-gray-900 dark:text-white">论文分析器</h4>
                                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">提供全面的学术论文分析框架</p>
                                 </div>
                             </a>
-                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/02-academic/paper_o1.md" class="block">
-                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/02-academic/paper_o1.md"
+                                class="block">
+                                <div
+                                    class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-200">
                                     <h4 class="font-medium text-gray-900 dark:text-white">论文解释（o1版）</h4>
                                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">按章节详细解释论文内容</p>
                                 </div>
@@ -115,10 +135,20 @@
                             元提示词
                         </h3>
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/03-meta/o1-meta-prompt.md" class="block">
-                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-purple-500 dark:hover:border-purple-500 transition-all duration-200">
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/03-meta/o1-meta-prompt.md"
+                                class="block">
+                                <div
+                                    class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-purple-500 dark:hover:border-purple-500 transition-all duration-200">
                                     <h4 class="font-medium text-gray-900 dark:text-white">o1 提示词生成指南</h4>
                                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">使用 GWFC 框架生成提示词</p>
+                                </div>
+                            </a>
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/03-meta/deep-research-meta-prompt.md"
+                                class="block">
+                                <div
+                                    class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-purple-500 dark:hover:border-purple-500 transition-all duration-200">
+                                    <h4 class="font-medium text-gray-900 dark:text-white">Deep Research 提示词模板</h4>
+                                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">用于生成结构化的研究问题查询</p>
                                 </div>
                             </a>
                         </div>
@@ -131,8 +161,10 @@
                             编程开发
                         </h3>
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/04-programming/github_explanation.md" class="block">
-                                <div class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-pink-500 dark:hover:border-pink-500 transition-all duration-200">
+                            <a href="https://github.com/theigrams/my-prompt-collection/blob/main/04-programming/github_explanation.md"
+                                class="block">
+                                <div
+                                    class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 shadow-sm hover:shadow-md hover:border-pink-500 dark:hover:border-pink-500 transition-all duration-200">
                                     <h4 class="font-medium text-gray-900 dark:text-white">GitHub 仓库分析工具</h4>
                                     <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">提供项目用途和功能概述</p>
                                 </div>
@@ -152,10 +184,11 @@
         }
 
         // Check for saved dark mode preference
-        if (localStorage.getItem('darkMode') === 'true' || 
+        if (localStorage.getItem('darkMode') === 'true' ||
             (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         }
     </script>
 </body>
-</html> 
+
+</html>

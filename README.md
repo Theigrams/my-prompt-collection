@@ -24,6 +24,8 @@
 
 - [o1-meta-prompt.md](03-meta/o1-meta-prompt.md)
   - o1 模型的提示词生成指南，使用 GWFC (Goal-Warnings-Format-Context) 框架
+- [deep-research-meta-prompt.md](03-meta/deep-research-meta-prompt)
+  - Deep Research 模型的研究型提示词模板，用于生成结构化的研究问题查询
 
 ### 04. 编程开发 (`04-programming/`)
 
