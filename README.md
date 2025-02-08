@@ -12,6 +12,8 @@
 
 - [latex_math_formulas.md](01-tips/latex_math_formulas.md)
   - 针对不同模型（如 Gemini、Sonnet）的 LaTeX 数学公式生成指南
+- [document_to_markdown.md](01-tips/document_to_markdown.md)
+  - 文档转换工具，将图片、PDF 等格式转换为结构化 Markdown
 
 ### 02. 学术类 (`02-academic/`)
 
@@ -24,7 +26,7 @@
 
 - [o1-meta-prompt.md](03-meta/o1-meta-prompt.md)
   - o1 模型的提示词生成指南，使用 GWFC (Goal-Warnings-Format-Context) 框架
-- [deep-research-meta-prompt.md](03-meta/deep-research-meta-prompt)
+- [deep-research-meta-prompt.md](03-meta/deep-research-meta-prompt.md)
   - Deep Research 模型的研究型提示词模板，用于生成结构化的研究问题查询
 
 ### 04. 编程开发 (`04-programming/`)
