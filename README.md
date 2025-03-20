@@ -33,3 +33,8 @@
 
 - [github_explanation.md](04-programming/github_explanation.md)
   - GitHub 仓库分析工具，提供项目用途、功能和应用场景的简明概述
+
+### 05. 实用工具 (`docs/tools/`)
+
+- [csv-tool.html](docs/tools/csv-tool.html)
+  - CSV播放量数据处理工具，可上传CSV文件，按人名和平台提取昨日播放量数据并整理导出

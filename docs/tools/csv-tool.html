@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV播放量数据处理工具</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/tailwindcss/2.2.19/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <!-- 确保PapaParse加载 - 尝试多个CDN源 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <script>
+    // 备用加载方案，以防主要CDN失败
+    if (typeof Papa === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"><\/script>');
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+    
+    :root {
+      --primary-color: #4F46E5;
+      --primary-light: #EEF2FF;
+      --primary-dark: #4338CA;
+      --success-color: #10B981;
+      --success-light: #D1FAE5;
+      --error-color: #EF4444;
+      --error-light: #FEE2E2;
+      --warning-color: #F59E0B;
+      --warning-light: #FEF3C7;
+    }
+    
+    * {
+      transition: all 0.2s ease;
+    }
+    
+    body {
+      font-family: 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(120deg, #F9FAFB 0%, #EFF6FF 100%);
+      min-height: 100vh;
+    }
+    
+    .hero-gradient {
+      background: linear-gradient(135deg, #4F46E5 0%, #818CF8 100%);
+    }
+    
+    .button-glow:hover {
+      box-shadow: 0 0 15px rgba(79, 70, 229, 0.5);
+    }
+    
+    /* 下载按钮样式 */
+    #download-btn {
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      opacity: 1 !important; /* 确保按钮始终可见 */
+      display: flex !important; /* 确保按钮始终显示为flex */
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    }
+    
+    #download-btn i {
+      filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5)); /* 给图标添加轻微发光效果 */
+    }
+    
+    #download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+    }
+    
+    #success-container {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    .file-drop-zone {
+      border: 2px dashed #E5E7EB;
+      transition: all 0.3s ease;
+    }
+    
+    .file-drop-zone:hover {
+      border-color: #818CF8;
+      background-color: #F5F3FF;
+    }
+    
+    .file-drop-active {
+      border-color: #4F46E5;
+      background-color: #EEF2FF;
+      transform: scale(1.01);
+    }
+    
+    .icon-container {
+      transition: transform 0.3s ease;
+    }
+    
+    .hover-scale:hover .icon-container {
+      transform: scale(1.1);
+    }
+    
+    .table-header {
+      background: linear-gradient(90deg, #F3F4F6 0%, #F9FAFB 100%);
+    }
+    
+    .table-row-alt:nth-child(even) {
+      background-color: #F9FAFB;
+    }
+    
+    .table-row-hover:hover {
+      background-color: #EEF2FF;
+    }
+    
+    .fade-in {
+      animation: fadeInAnimation 0.5s ease forwards;
+    }
+    
+    @keyframes fadeInAnimation {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .loading-pulse {
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+    
+    /* 美化滚动条 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #F1F5F9;
+      border-radius: 8px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 8px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+    
+    /* 状态标记样式 */
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    
+    .status-success {
+      background-color: #10B981; /* 绿色 - 数据获取成功 */
+    }
+    
+    .status-error {
+      background-color: #EF4444; /* 红色 - 数据未更新或获取失败 */
+    }
+    
+    /* 闪光效果 */
+    .shine-effect {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .shine-effect::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(30deg);
+      animation: shine 3s infinite;
+    }
+    
+    @keyframes shine {
+      0% {
+        transform: translateX(-100%) rotate(30deg);
+      }
+      100% {
+        transform: translateX(100%) rotate(30deg);
+      }
+    }
+    
+    .data-cell {
+      transition: all 0.2s ease-in-out;
+    }
+    
+    .data-cell:hover {
+      background-color: #EEF2FF;
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body class="py-8 px-4 md:py-12">
+  <!-- 主容器 -->
+  <div class="max-w-5xl mx-auto">
+    <!-- 页面标题卡片 -->
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-8">
+      <!-- 标题区域 -->
+      <div class="hero-gradient text-white px-6 py-10 sm:px-10">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+          <div class="bg-white bg-opacity-20 p-4 rounded-xl mr-5 mb-4 sm:mb-0">
+            <i class="fas fa-chart-bar text-3xl"></i>
+          </div>
+          <div>
+            <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-2">CSV播放量数据处理工具</h1>
+            <p class="text-indigo-100 text-lg">上传CSV文件，轻松提取昨日播放量数据并按人名和平台整理</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 内容区域 -->
+      <div class="p-6 sm:p-10">
+        <!-- 文件上传区域 -->
+        <div class="mb-8">
+          <label class="flex items-center mb-4 text-gray-700 font-semibold">
+            <div class="w-10 h-10 flex items-center justify-center bg-indigo-100 rounded-full mr-3">
+              <i class="fas fa-file-csv text-indigo-600"></i>
+            </div>
+            <span class="text-lg">上传CSV文件</span>
+          </label>
+          
+          <div id="drop-area" class="file-drop-zone rounded-xl p-10 text-center hover-scale">
+            <input type="file" accept=".csv" id="file-upload" class="hidden">
+            <label for="file-upload" class="cursor-pointer block">
+              <div id="file-info" class="flex flex-col items-center space-y-4">
+                <div class="icon-container bg-indigo-100 p-5 rounded-full w-20 h-20 flex items-center justify-center">
+                  <i class="fas fa-cloud-upload-alt text-4xl text-indigo-600"></i>
+                </div>
+                <div>
+                  <p class="text-gray-700 font-medium text-lg mb-2">点击选择或拖放CSV文件到此处</p>
+                  <p class="text-sm text-gray-500">请上传与示例格式相同的CSV文件（GB2312编码）</p>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 处理按钮 -->
+        <button id="process-btn" disabled class="w-full py-4 px-6 rounded-xl font-medium flex items-center justify-center bg-gray-200 text-gray-500 cursor-not-allowed transition-all mb-4">
+          <i class="fas fa-cogs mr-3"></i>
+          <span>处理CSV文件</span>
+        </button>
+
+        <!-- 错误提示 -->
+        <div id="error-container" class="mb-6 rounded-xl overflow-hidden hidden fade-in">
+          <div class="bg-error-light p-4 flex items-start">
+            <div class="bg-white p-2 rounded-full mr-3 flex-shrink-0">
+              <i class="fas fa-exclamation-circle text-error-color"></i>
+            </div>
+            <div>
+              <h4 class="font-medium text-error-color mb-1">处理出错</h4>
+              <p id="error-message" class="text-sm text-red-700"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 处理中提示 -->
+        <div id="processing-container" class="mb-6 rounded-xl overflow-hidden hidden fade-in">
+          <div class="bg-indigo-100 p-4 flex items-center">
+            <div class="bg-white p-2 rounded-full mr-3 flex-shrink-0">
+              <i class="fas fa-spinner fa-spin text-indigo-600"></i>
+            </div>
+            <div>
+              <p class="text-indigo-700 font-medium">正在处理CSV文件，请稍候...</p>
+              <div class="w-full bg-white rounded-full h-1.5 mt-2">
+                <div class="bg-indigo-600 h-1.5 rounded-full loading-pulse" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 成功提示 -->
+        <div id="success-container" class="mb-6 rounded-xl overflow-hidden hidden">
+          <div class="bg-success-light p-5">
+            <div class="flex items-center mb-4">
+              <div class="bg-white p-2 rounded-full mr-3 flex-shrink-0 shine-effect">
+                <i class="fas fa-check-circle text-success-color"></i>
+              </div>
+              <h3 class="font-bold text-green-800 text-lg">处理完成！</h3>
+            </div>
+            <button id="download-btn" class="inline-flex items-center px-5 py-3 bg-success-color text-white rounded-lg hover:bg-green-700 transition-all shadow-md">
+              <i class="fas fa-download mr-2 text-white text-xl"></i>
+              <span class="font-medium">下载处理后的CSV文件</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- 数据预览区域 -->
+        <div id="preview-container" class="mt-10 hidden fade-in">
+          <div class="flex items-center mb-5">
+            <div class="bg-indigo-100 p-3 rounded-full mr-3">
+              <i class="fas fa-table text-xl text-indigo-600"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800">数据预览</h3>
+          </div>
+          
+          <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="overflow-x-auto">
+              <table id="preview-table" class="min-w-full">
+                <thead>
+                  <tr class="table-header">
+                    <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider border-b">
+                      <div class="flex items-center">
+                        <i class="fas fa-user mr-2 text-indigo-500"></i>项目
+                      </div>
+                    </th>
+                    <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider border-b">
+                      <div class="flex items-center">
+                        <i class="fas fa-rss-square mr-2 text-indigo-500"></i>百家号
+                      </div>
+                    </th>
+                    <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider border-b">
+                      <div class="flex items-center">
+                        <i class="fas fa-newspaper mr-2 text-indigo-500"></i>今日头条
+                      </div>
+                    </th>
+                    <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider border-b">
+                      <div class="flex items-center">
+                        <i class="fas fa-play mr-2 text-indigo-500"></i>西瓜
+                      </div>
+                    </th>
+                    <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider border-b">
+                      <div class="flex items-center">
+                        <i class="fab fa-weixin mr-2 text-indigo-500"></i>视频号
+                      </div>
+                    </th>
+                    <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider border-b">
+                      <div class="flex items-center">
+                        <i class="fas fa-book mr-2 text-indigo-500"></i>小红书
+                      </div>
+                    </th>
+                    <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider border-b">
+                      <div class="flex items-center">
+                        <i class="fab fa-tiktok mr-2 text-indigo-500"></i>抖音
+                      </div>
+                    </th>
+                    <th class="py-4 px-6 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider border-b">
+                      <div class="flex items-center">
+                        <i class="fas fa-video mr-2 text-indigo-500"></i>快手
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="preview-body">
+                  <!-- 数据将在这里动态填充 -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="mt-4 flex items-center text-sm text-gray-600">
+            <i class="fas fa-info-circle mr-2 text-indigo-500"></i>
+            <span>表格中展示了各平台昨日播放量数据</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <div class="mt-8 text-center">
+      <p class="text-gray-500 text-sm flex items-center justify-center">
+        <i class="fas fa-code text-indigo-400 mr-2"></i>
+        <span>© 2025 CSV播放量数据处理工具 | 本地版本</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- 移除原始的PapaParse引用，因为我们已经在头部添加了更可靠的加载方式 -->
+  <script>
+    // 检查PapaParse是否加载成功
+    window.addEventListener('load', function() {
+      if (typeof Papa === 'undefined') {
+        showError('CSV解析库（PapaParse）加载失败。请检查您的网络连接或尝试刷新页面。');
+      }
+      
+      // 确保所有Font Awesome图标正确加载
+      if (!document.querySelector('.fa-download')) {
+        console.warn('Font Awesome图标可能未正确加载');
+      }
+    });
+    
+    // 定义全局变量
+    let processedData = null;
+    let originalFileName = '';
+    
+    // DOM元素
+    const fileUpload = document.getElementById('file-upload');
+    const fileInfo = document.getElementById('file-info');
+    const dropArea = document.getElementById('drop-area');
+    const processBtn = document.getElementById('process-btn');
+    const errorContainer = document.getElementById('error-container');
+    const errorMessage = document.getElementById('error-message');
+    const processingContainer = document.getElementById('processing-container');
+    const successContainer = document.getElementById('success-container');
+    const downloadBtn = document.getElementById('download-btn');
+    const previewContainer = document.getElementById('preview-container');
+    const previewBody = document.getElementById('preview-body');
+    
+    // 文件拖放功能
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, unhighlight, false);
+    });
+    
+    function highlight() {
+      dropArea.classList.add('file-drop-active');
+    }
+    
+    function unhighlight() {
+      dropArea.classList.remove('file-drop-active');
+    }
+    
+    dropArea.addEventListener('drop', handleDrop, false);
+    
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length) {
+        fileUpload.files = files;
+        handleFileSelect();
+      }
+    }
+    
+    // 文件选择处理
+    fileUpload.addEventListener('change', handleFileSelect);
+    
+    function handleFileSelect() {
+      const file = fileUpload.files[0];
+      if (file) {
+        originalFileName = file.name;
+        
+        if (!file.name.endsWith('.csv')) {
+          showError('请上传CSV格式的文件');
+          return;
+        }
+        
+        fileInfo.innerHTML = `
+          <div class="flex flex-col items-center space-y-3">
+            <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center shine-effect">
+              <i class="fas fa-file-csv text-3xl text-green-600"></i>
+            </div>
+            <div class="flex items-center">
+              <span class="text-green-600 font-medium mr-2">${file.name}</span>
+              <button onclick="resetFileInput(event)" class="text-gray-400 hover:text-red-500 focus:outline-none" title="移除文件">
+                <i class="fas fa-times-circle"></i>
+              </button>
+            </div>
+            <div class="flex items-center text-xs text-gray-500">
+              <i class="fas fa-info-circle mr-1"></i>
+              <span>文件已选择，点击"处理CSV文件"按钮开始处理</span>
+            </div>
+          </div>
+        `;
+        
+        processBtn.disabled = false;
+        processBtn.classList.remove('bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+        processBtn.classList.add('bg-indigo-600', 'text-white', 'hover:bg-indigo-700', 'button-glow');
+        
+        hideError();
+        hideSuccess();
+        hidePreview();
+      }
+    }
+    
+    // 重置文件输入
+    function resetFileInput(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      
+      fileUpload.value = '';
+      fileInfo.innerHTML = `
+        <div class="flex flex-col items-center space-y-4">
+          <div class="icon-container bg-indigo-100 p-5 rounded-full w-20 h-20 flex items-center justify-center">
+            <i class="fas fa-cloud-upload-alt text-4xl text-indigo-600"></i>
+          </div>
+          <div>
+            <p class="text-gray-700 font-medium text-lg mb-2">点击选择或拖放CSV文件到此处</p>
+            <p class="text-sm text-gray-500">请上传与示例格式相同的CSV文件（GB2312编码）</p>
+          </div>
+        </div>
+      `;
+      
+      processBtn.disabled = true;
+      processBtn.classList.remove('bg-indigo-600', 'text-white', 'hover:bg-indigo-700', 'button-glow');
+      processBtn.classList.add('bg-gray-200', 'text-gray-500', 'cursor-not-allowed');
+    }
+    
+    // 处理按钮点击事件
+    processBtn.addEventListener('click', processCSV);
+    
+    function processCSV() {
+      // 首先检查PapaParse是否可用
+      if (typeof Papa === 'undefined') {
+        showError('CSV解析库（PapaParse）未加载。请刷新页面后重试。');
+        return;
+      }
+      
+      const file = fileUpload.files[0];
+      if (!file) {
+        showError('请选择一个CSV文件');
+        return;
+      }
+      
+      showProcessing();
+      hideError();
+      hideSuccess();
+      hidePreview();
+      
+      // 使用FileReader读取文件内容
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        try {
+          // 尝试以GB2312编码读取
+          const arrayBuffer = e.target.result;
+          const decoder = new TextDecoder('gb2312');
+          const csvString = decoder.decode(arrayBuffer);
+          
+          // 使用PapaParse解析CSV
+          Papa.parse(csvString, {
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+              if (results.errors.length > 0) {
+                showError('解析CSV文件时出错: ' + results.errors[0].message);
+                hideProcessing();
+                return;
+              }
+              
+              try {
+                const processedResults = processData(results.data);
+                processedData = processedResults;
+                
+                hideProcessing();
+                showSuccess();
+                showPreview(processedResults);
+              } catch (err) {
+                showError('处理数据时出错: ' + err.message);
+                hideProcessing();
+              }
+            },
+            error: function(error) {
+              showError('解析CSV文件时出错: ' + error.message);
+              hideProcessing();
+            }
+          });
+        } catch (err) {
+          showError('读取文件时出错，可能是编码问题: ' + err.message);
+          hideProcessing();
+        }
+      };
+      
+      reader.onerror = function() {
+        showError('读取文件时出错');
+        hideProcessing();
+      };
+      
+      reader.readAsArrayBuffer(file);
+    }
+    
+    // 数据处理逻辑
+    function processData(data) {
+      // 检查数据是否包含必要的列
+      if (!data.length || !data[0].hasOwnProperty('账号') || !data[0].hasOwnProperty('平台') || !data[0].hasOwnProperty('昨日播放量')) {
+        throw new Error('CSV文件格式不正确，缺少必要的列（账号、平台或昨日播放量）');
+      }
+      
+      // 定义从账号名提取人名的函数
+      function getPersonName(accountName) {
+        if (accountName.includes('张辉')) {
+          return '张辉';
+        } else if (accountName.includes('刘志明')) {
+          return '刘志明';
+        } else if ((accountName.includes('孟') && (accountName.includes('丹石') || accountName.includes('医师'))) || accountName.includes('丹心药石')) {
+          return '孟丹石';
+        } else if (accountName.includes('刘院生')) {
+          return '刘院生';
+        } else if (accountName.includes('唐建辉')) {
+          return '唐建辉';
+        } else if (accountName.includes('唐爱军')) {
+          return '唐爱军';
+        } else if (accountName.includes('刘嵘')) {
+          return '刘嵘';
+        } else if (accountName.includes('袁宇星')) {
+          return '袁宇星';
+        } else if (accountName.includes('刘振刚')) {
+          return '刘振刚';
+        } else if (accountName.includes('王海龙')) {
+          return '王海龙';
+        } else if (accountName.includes('龙永福')) {
+          return '龙永福';
+        } else if (accountName.includes('刘建国')) {
+          return '刘建国';
+        } else {
+          return '其他';
+        }
+      }
+      
+      // 平台名称映射
+      function mapPlatform(platform) {
+        const mapping = {
+          '百家号': '百家号',
+          '头条号': '今日头条',
+          '西瓜视频': '西瓜',
+          '微信视频号': '视频号',
+          '小红书': '小红书',
+          '抖音': '抖音',
+          '快手': '快手',
+          '哔哩哔哩': 'B站'
+        };
+        return mapping[platform] || '其他';
+      }
+      
+      // 应用转换函数
+      const processedData = data.map(row => {
+        return {
+          ...row,
+          person: getPersonName(row['账号']),
+          platform: mapPlatform(row['平台'])
+        };
+      });
+      
+      // 定义输出所需的人名和平台
+      const requiredPeople = ['张辉', '刘嵘', '刘志明', '孟丹石', '刘院生', '唐建辉', '刘建国'];
+      const requiredPlatforms = ['百家号', '今日头条', '西瓜', '视频号', '小红书', '抖音', '快手'];
+      
+      // 创建结果对象，默认值为'/'
+      const result = {};
+      requiredPeople.forEach(person => {
+        result[person] = {};
+        requiredPlatforms.forEach(platform => {
+          result[person][platform] = '/';
+        });
+      });
+      
+      // 填充实际数据
+      processedData.forEach(row => {
+        const person = row.person;
+        const platform = row.platform;
+        const playCount = row['昨日播放量'];
+        
+        // 如果不在所需列表中，则跳过
+        if (!requiredPeople.includes(person) || !requiredPlatforms.includes(platform)) {
+          return;
+        }
+        
+        // 特殊处理：刘志明的小红书和西瓜、张辉的快手、刘嵘的西瓜设为"/"
+        if ((person === '刘志明' && (platform === '小红书' || platform === '西瓜')) || 
+            (person === '张辉' && platform === '快手') ||
+            (person === '刘嵘' && platform === '西瓜')) {
+          result[person][platform] = '/';
+          return;
+        }
+        
+        // 直接更新值
+        result[person][platform] = playCount;
+      });
+      
+      // 转换为数组格式，方便展示和导出
+      const resultArray = requiredPeople.map(person => {
+        const row = { '项目': person };
+        requiredPlatforms.forEach(platform => {
+          row[platform] = result[person][platform];
+        });
+        return row;
+      });
+      
+      return resultArray;
+    }
+    
+    // 下载按钮点击事件
+    downloadBtn.addEventListener('click', downloadCSV);
+    
+    function downloadCSV() {
+      if (!processedData) {
+        showError('没有可下载的数据');
+        return;
+      }
+      
+      // 生成CSV内容
+      const csvContent = generateCSV(processedData);
+      
+      // 创建下载链接
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      
+      // 使用原始文件名作为基础
+      const dateStr = new Date().toLocaleDateString('zh-CN').replace(/\//g, '');
+      const downloadName = `昨日播放量_按人名平台_${dateStr}.csv`;
+      
+      link.setAttribute('download', downloadName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // 添加下载成功的反馈
+      const successMsg = document.createElement('div');
+      successMsg.className = 'mt-3 py-2 px-3 bg-green-100 text-green-700 rounded-lg inline-flex items-center fade-in';
+      successMsg.innerHTML = '<i class="fas fa-check-circle mr-2"></i> 文件下载成功';
+      downloadBtn.parentNode.appendChild(successMsg);
+      
+      setTimeout(() => {
+        successMsg.style.opacity = '0';
+        setTimeout(() => {
+          if (successMsg.parentNode) {
+            successMsg.parentNode.removeChild(successMsg);
+          }
+        }, 500);
+      }, 2000);
+    }
+    
+    function generateCSV(data) {
+      if (!data || !data.length) return '';
+      
+      const header = Object.keys(data[0]);
+      let csv = header.join(',') + '\n';
+      
+      data.forEach(row => {
+        const values = header.map(key => {
+          const value = row[key] || '';
+          // 如果值包含逗号、引号或换行符，则需要用引号括起来
+          if (value.includes(',') || value.includes('"') || value.includes('\n')) {
+            return '"' + value.replace(/"/g, '""') + '"';
+          }
+          return value;
+        });
+        csv += values.join(',') + '\n';
+      });
+      
+      return '\uFEFF' + csv; // 添加BOM标记，确保Excel正确识别UTF-8编码
+    }
+    
+    // 显示预览数据
+    function showPreview(data) {
+      if (!data || !data.length) return;
+      
+      previewBody.innerHTML = '';
+      
+      // 为数据行添加一些视觉区分
+      data.forEach((row, index) => {
+        const tr = document.createElement('tr');
+        tr.className = `table-row-alt table-row-hover ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`;
+        
+        // 添加项目列
+        const tdItem = document.createElement('td');
+        tdItem.className = 'py-4 px-6 border-b';
+        
+        // 创建一个带有样式的人名单元格
+        tdItem.innerHTML = `
+          <div class="flex items-center">
+            <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center mr-3">
+              <span class="font-bold text-indigo-700">${row['项目'].charAt(0)}</span>
+            </div>
+            <span class="font-medium text-gray-800">${row['项目']}</span>
+          </div>
+        `;
+        tr.appendChild(tdItem);
+        
+        // 添加平台列
+        const platforms = ['百家号', '今日头条', '西瓜', '视频号', '小红书', '抖音', '快手'];
+        platforms.forEach(platform => {
+          const td = document.createElement('td');
+          td.className = 'py-4 px-6 border-b data-cell';
+          
+          const value = row[platform];
+          if (value === '/') {
+            // 默认为/，不显示圆点
+            td.innerHTML = `<span class="text-gray-400">/</span>`;
+          } else {
+            // 尝试将值解析为数字
+            const numValue = parseInt(value);
+            if (!isNaN(numValue)) {
+              // 数字获取成功 - 显示绿点
+              let textClass = numValue > 10000 ? 'text-green-700 font-medium' : 'text-gray-800';
+              td.innerHTML = `
+                <div class="flex items-center">
+                  <span class="status-indicator status-success"></span>
+                  <span class="${textClass}">${formatNumber(numValue)}</span>
+                </div>
+              `;
+            } else {
+              // 未更新或获取失败 - 显示红点
+              td.innerHTML = `
+                <div class="flex items-center">
+                  <span class="status-indicator status-error"></span>
+                  <span class="text-gray-700">${value}</span>
+                </div>
+              `;
+            }
+          }
+          
+          tr.appendChild(td);
+        });
+        
+        previewBody.appendChild(tr);
+      });
+      
+      previewContainer.classList.remove('hidden');
+    }
+    
+    // 格式化数字，添加千位分隔符
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    
+    // 辅助函数：显示/隐藏各种容器
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorContainer.classList.remove('hidden');
+    }
+    
+    function hideError() {
+      errorContainer.classList.add('hidden');
+    }
+    
+    function showProcessing() {
+      processingContainer.classList.remove('hidden');
+    }
+    
+    function hideProcessing() {
+      processingContainer.classList.add('hidden');
+    }
+    
+    function showSuccess() {
+      // 先确保元素存在
+      if(successContainer) {
+        // 移除隐藏类，使容器可见
+        successContainer.classList.remove('hidden');
+        // 添加淡入动画效果
+        successContainer.style.animation = 'fadeIn 0.5s ease forwards';
+        
+        // 明确设置下载按钮样式，确保可见
+        const downloadBtn = document.getElementById('download-btn');
+        if (downloadBtn) {
+          downloadBtn.style.display = 'flex';
+          downloadBtn.style.opacity = '1';
+          downloadBtn.classList.add('animate__animated', 'animate__pulse');
+          
+          // 添加一个明显的闪烁效果引起注意
+          setTimeout(() => {
+            downloadBtn.classList.add('animate__animated', 'animate__flash');
+          }, 500);
+        }
+      }
+    }
+    
+    function hideSuccess() {
+      successContainer.classList.add('hidden');
+    }
+    
+    function hidePreview() {
+      previewContainer.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
