@@ -38,3 +38,5 @@
 
 - [csv-tool.html](docs/tools/csv-tool.html)
   - CSV播放量数据处理工具，可上传CSV文件，按人名和平台提取昨日播放量数据并整理导出
+- [md-equation-tool.html](docs/tools/md-equation-tool.html)
+  - Markdown数学公式转换工具，支持将LaTeX格式的数学公式转换为Markdown兼容格式，包括行内公式和显示公式的转换
